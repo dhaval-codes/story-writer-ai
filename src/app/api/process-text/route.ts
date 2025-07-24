@@ -91,7 +91,7 @@ export async function POST(req: Request) {
     return Response.json(
       {
         json: null,
-        message: "An error occurred while processing your request.",
+        message: error,
       },
       { status: 500 }
     );
