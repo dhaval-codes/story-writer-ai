@@ -123,8 +123,12 @@ function PopUp({
   };
 
   const handleSaveChanges = () => {
-    const cleanedText = updatedText
-      ? updatedText.replace(/<\/?(blue|green|red)>/g, "")
+    let cleanedText = updatedText
+      ? updatedText
+          // Remove <red>...</red> including the text inside
+          .replace(/<red>[\s\S]*?<\/red>/g, "")
+          // Remove only the tags for blue and green, keep their text
+          .replace(/<\/?(blue|green)>/g, "")
       : rawText;
 
     const updatedSections = processedJson.sections.map((sec, i) => {
@@ -135,7 +139,7 @@ function PopUp({
         heading,
         raw_text: cleanedText,
         tone,
-        sentence_complexity: sentenceComplexity, // ✅ fixed name
+        sentence_complexity: sentenceComplexity,
       };
     });
 
