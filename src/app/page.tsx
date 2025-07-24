@@ -50,6 +50,7 @@ export default function Home() {
   const [currentSection, setCurrentSection] = useState<number>(0);
   const [presets, setPresets] =
     useState<Record<string, Preset>>(initialPresets);
+  const [loading, setLoading] = useState<boolean>(false);
 
   const OpenEditPopUp = (key: number) => {
     setIsPopUpOpen(true);
@@ -80,16 +81,23 @@ export default function Home() {
       )}
       <AppHeader />
       <div className="flex flex-col items-center justify-center w-full h-full p-4">
-        <LoadTextComponent
-          text={text}
-          setText={setText}
-          setProcessedJson={setProcessedJson}
-        />
-        {processedJson && (
-          <StoryStudio
-            processedJson={processedJson}
-            openEditPopUp={OpenEditPopUp}
-          />
+        {loading === true ? (
+          <div>Loading...</div>
+        ) : (
+          <>
+            <LoadTextComponent
+              text={text}
+              setText={setText}
+              setProcessedJson={setProcessedJson}
+              setLoading={setLoading}
+            />
+            {processedJson && (
+              <StoryStudio
+                processedJson={processedJson}
+                openEditPopUp={OpenEditPopUp}
+              />
+            )}
+          </>
         )}
       </div>
     </div>

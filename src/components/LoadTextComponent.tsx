@@ -16,12 +16,12 @@ function getWarningColor(wordCount: number) {
 function LoadTextComponent({
   text,
   setText,
-
+  setLoading,
   setProcessedJson,
 }: {
   text: string;
   setText: (text: string) => void;
-
+  setLoading: (loading: boolean) => void;
   setProcessedJson: (json: any) => void;
 }) {
   const wordCount = getWordCount(text);
@@ -29,10 +29,12 @@ function LoadTextComponent({
 
   const ProcessTextFunc = async (text: string) => {
     try {
+      setLoading(true);
       let res = await axios.post("/api/process-text", { text });
       if (res.data.json) {
         setProcessedJson(res.data.json);
       }
+      setLoading(false);
     } catch (error) {
       console.error("Error processing text:", error);
     }
@@ -67,7 +69,7 @@ function LoadTextComponent({
         />
 
         <AppButton
-          text="Load Text"
+          text="Process Text"
           onClick={() => ProcessTextFunc(text)}
           disabled={!text || wordCount > 1000}
         />
