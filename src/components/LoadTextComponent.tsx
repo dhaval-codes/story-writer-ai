@@ -1,6 +1,7 @@
 "use client";
 import React from "react";
 import AppButton from "./AppButton";
+import axios from "axios";
 
 function getWordCount(text: string) {
   return text.trim() === "" ? 0 : text.trim().split(/\s+/).length;
@@ -15,12 +16,27 @@ function getWarningColor(wordCount: number) {
 function LoadTextComponent({
   text,
   setText,
+
+  setProcessedJson,
 }: {
   text: string;
   setText: (text: string) => void;
+
+  setProcessedJson: (json: any) => void;
 }) {
   const wordCount = getWordCount(text);
   const warningColor = getWarningColor(wordCount);
+
+  const ProcessTextFunc = async (text: string) => {
+    try {
+      let res = await axios.post("/api/process-text", { text });
+      if (res.data.json) {
+        setProcessedJson(res.data.json);
+      }
+    } catch (error) {
+      console.error("Error processing text:", error);
+    }
+  };
 
   return (
     <div className="w-full h-80 flex flex-col gap-2 items-center justify-center p-4">
@@ -51,8 +67,8 @@ function LoadTextComponent({
         />
 
         <AppButton
-          text="Submit"
-          onClick={() => console.log(text)}
+          text="Load Text"
+          onClick={() => ProcessTextFunc(text)}
           disabled={!text || wordCount > 1000}
         />
       </div>

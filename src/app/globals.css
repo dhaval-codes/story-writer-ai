@@ -1,1 +1,19 @@
 @import "tailwindcss";
+
+span.blue {
+  background-color: rgba(96, 165, 250, 0.3); /* blue-400 */
+  border-radius: 4px;
+  padding: 2px;
+}
+
+span.green {
+  background-color: rgba(74, 222, 128, 0.3); /* green-400 */
+  border-radius: 4px;
+  padding: 2px;
+}
+
+span.red {
+  background-color: rgba(248, 113, 113, 0.3); /* red-400 */
+  border-radius: 4px;
+  padding: 2px;
+}
